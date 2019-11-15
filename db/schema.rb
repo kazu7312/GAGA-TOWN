@@ -10,7 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191114025437) do
+ActiveRecord::Schema.define(version: 20191115191258) do
+
+  create_table "brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.bigint "category_id"
+    t.bigint "brand_id"
+    t.integer "price"
+    t.text "detail"
+    t.string "icon"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand_id", "name"], name: "index_products_on_brand_id_and_name"
+    t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["category_id", "name"], name: "index_products_on_category_id_and_name"
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["created_at"], name: "index_products_on_created_at"
+    t.index ["price"], name: "index_products_on_price"
+  end
+
+  create_table "sizes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -21,6 +56,9 @@ ActiveRecord::Schema.define(version: 20191114025437) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
+    t.boolean "admin", default: false
   end
 
+  add_foreign_key "products", "brands"
+  add_foreign_key "products", "categories"
 end
