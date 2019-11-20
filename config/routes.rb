@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   get '/search', to: 'search#new'
   post '/search', to: 'search#create'
 
+  resources :products
 end

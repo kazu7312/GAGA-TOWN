@@ -1,0 +1,13 @@
+<li id="product-<%= product.id %>">
+  <span class="book_name">
+  <%= product.name %></span><br><br><br>
+  <span class="product_info">カテゴリー: <%= product.category_id %></span>
+  <span class="product_info">ブランド: <%= product.brand_id %></span><br>
+  <span class="picture jumbotron"><%= product.icon %></span><br><br><br><br>
+  <span class="timestamp">
+    Added <%= time_ago_in_words(product.created_at) %> ago.
+  </span>
+  <span class="timestamp">
+    Updated <%= time_ago_in_words(product.updated_at) %> ago.
+  </span>
+</li>

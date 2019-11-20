@@ -1,0 +1,6 @@
+<% if @products.any? %>
+  <ol class="products">
+    <%= render @products %>
+  </ol>
+  <%= will_paginate @products %>
+<% end %>

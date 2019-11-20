@@ -10,18 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191115191258) do
+ActiveRecord::Schema.define(version: 20191120103536) do
 
   create_table "brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.index ["name"], name: "index_brands_on_name"
+  end
+
+  create_table "carts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_carts_on_item_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.index ["name"], name: "index_categories_on_name"
+  end
+
+  create_table "favorites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "product_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_favorites_on_product_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "product_id"
+    t.bigint "size_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_items_on_product_id"
+    t.index ["size_id"], name: "index_items_on_size_id"
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -33,18 +59,41 @@ ActiveRecord::Schema.define(version: 20191115191258) do
     t.string "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["brand_id", "name"], name: "index_products_on_brand_id_and_name"
     t.index ["brand_id"], name: "index_products_on_brand_id"
-    t.index ["category_id", "name"], name: "index_products_on_category_id_and_name"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["created_at"], name: "index_products_on_created_at"
-    t.index ["price"], name: "index_products_on_price"
+    t.index ["name"], name: "index_products_on_name"
+    t.index ["price", "brand_id"], name: "index_products_on_price_and_brand_id"
+    t.index ["price", "category_id"], name: "index_products_on_price_and_category_id"
+  end
+
+  create_table "purchases", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "item_id"
+    t.string "destination_name"
+    t.string "destination_address"
+    t.string "destination_postal_code"
+    t.string "credit_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_purchases_on_created_at"
+    t.index ["item_id"], name: "index_purchases_on_item_id"
+    t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
   create_table "sizes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.index ["name"], name: "index_sizes_on_name"
+  end
+
+  create_table "stocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "product_id"
+    t.bigint "size_id"
+    t.integer "count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stocks_on_product_id"
+    t.index ["size_id"], name: "index_stocks_on_size_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -57,8 +106,19 @@ ActiveRecord::Schema.define(version: 20191115191258) do
     t.string "password_digest"
     t.string "remember_digest"
     t.boolean "admin", default: false
+    t.index ["email"], name: "index_users_on_email"
   end
 
+  add_foreign_key "carts", "items"
+  add_foreign_key "carts", "users"
+  add_foreign_key "favorites", "products"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "items", "products"
+  add_foreign_key "items", "sizes"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
+  add_foreign_key "purchases", "items"
+  add_foreign_key "purchases", "users"
+  add_foreign_key "stocks", "products"
+  add_foreign_key "stocks", "sizes"
 end

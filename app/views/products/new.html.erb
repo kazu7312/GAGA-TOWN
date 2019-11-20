@@ -1,0 +1,32 @@
+<% provide(:title, 'Add product') %>
+<% provide(:button_text, '商品を追加する') %>
+<h1>商品追加</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@product) do |f| %>
+      <%= render 'shared/error_messages', object: @product %>
+
+      <%= f.label :商品名 %>
+      <%= f.text_field :name, class: 'form-control' %>
+
+      <%= f.label :カテゴリ %>
+      <%= f.select :category_id, [["hoge", 1]] %>
+
+      <%= f.label :ブランド %>
+      <%= f.select :brand_id, [["hoge", 1]] %>
+
+      <%= f.label :価格 %>
+      <%= f.number_field :price, class: 'form-control' %>
+
+      <%= f.label :商品詳細 %>
+      <%= f.text_area :detail, class: 'form-control' %>
+
+      <%= f.label :アイコン %>
+      <%= f.text_field :icon, class: 'form-control' %>
+
+      <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+    <% end %>
+
+  </div>
+</div>
