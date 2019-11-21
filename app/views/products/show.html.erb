@@ -1,0 +1,24 @@
+<% provide(:title, "Product details") %>
+
+<h1>商品詳細</h1>
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <ol class="products">
+      <span class="product_name">
+      <%= link_to @product.name, product_path(@product.id) %></span><br>
+      <span class="product_info">Price: ¥<%= @product.price %></span><br>
+      <span class="product_info">Category: <%= Category.find(@product.category_id).name %></span><br>
+
+      <span class="detail">商品詳細</span><br><br><br><br>
+      <span class="detail jumbotron"><%= @product.detail %></span><br><br><br><br>
+
+      <span class="timestamp">
+        Added <%= time_ago_in_words(@product.created_at) %> ago.
+      </span>
+      <span class="timestamp">
+        Updated <%= time_ago_in_words(@product.updated_at) %> ago.
+      </span>
+    </ol>
+  </div>
+</div>

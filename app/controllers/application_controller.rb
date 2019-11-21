@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
     end
 
     def search_params?
-      !(params[:book_name].nil? && params[:author_name].nil? && params[:publication_year].nil? && params[:isbn].nil? && params[:comment].nil? && params[:publisher].nil?)
+      !(params[:name].nil? && params[:category_id].nil? && params[:brand_id].nil? && params[:price].nil? && params[:detail].nil? && params[:icon].nil?)
     end
 end

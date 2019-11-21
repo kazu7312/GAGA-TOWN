@@ -3,7 +3,13 @@ class ProductsController < ApplicationController
   before_action :correct_user,   only: [:edit, :update]
 
   def index
-    @products = Product.paginate(page: params[:page])
+    # if word_search
+    #   @products = Product.paginate(page: params[:page]).search(params[:word_search]).order(created_at: “DESC”)
+    # elsif select_search
+    #   @products = Product.paginate(page: params[:page]).search(params[:select_search]).order(created_at: “DESC”)
+    # else
+    #   @products = Product.paginate(page: params[:page])
+    # end
   end
 
   def new
@@ -20,6 +26,9 @@ class ProductsController < ApplicationController
     end
   end
 
+  def show
+    @product = Product.find(params[:id])
+  end
 end
 
 
