@@ -1,2 +1,35 @@
-<h1>Purchases#new</h1>
-<p>Find me in app/views/purchases/new.html.erb</p>
+<% provide(:title, 'Purchase product') %>
+
+<h1>購入確認画面</h1>
+<ul>
+  <% @cart.items.each do |item| %>
+    <li>商品: <%= item.product.name %> </li>
+    <li>価格: <%= item.product.price %> 円 </li>
+    <li>サイズ: <%= Size.find(Stock.find_by(product_id: item.product.id).size_id).name %> </li>
+    <li>数量: <%= item.quantity %> </li>
+    <li>小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %></li>
+    ---------------------------------------------------------------------------------------------------
+  <% end %>
+</ul>
+<h3>合計金額: <%= number_to_currency(@cart.sub_total, unit: "￥", precision: 0) %></h3><br>
+<%= form_for(@purchase) do |f| %>
+  <p>
+    <%= f.label :宛名 %><br>
+    <%= f.text_field :destination_name, required: true, autofocus: true %>
+  </p>
+  <p>
+    <%= f.label :送り先郵便番号 %><br>
+    <%= f.text_field :destination_postal_code, required: true %>
+  </p>
+  <p>
+    <%= f.label :送り先住所 %><br>
+    <%= f.text_field :destination_address, required: true %>
+  </p>
+  <p>
+    <%= f.label :クレジットカード番号 %><br>
+    <%= f.text_field :credit_number, required: true %>
+  </p><br>
+  <p>
+    <%= f.submit "購入を確定する", class: 'btn btn-primary'%>
+  </p>
+<% end %>

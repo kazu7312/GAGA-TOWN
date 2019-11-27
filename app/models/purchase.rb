@@ -1,4 +1,6 @@
 class Purchase < ApplicationRecord
   belongs_to :user
-  belongs_to :item
+  has_many :items, dependent: :destroy
+  has_many :products, through: :items
+  belongs_to :product
 end

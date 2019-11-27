@@ -7,8 +7,8 @@
     <ol class="products">
       <span class="product_name">
       <%= link_to @product.name, product_path(@product.id) %></span><br>
-      <span class="product_info">Price: ¥<%= @product.price %></span><br>
-      <span class="product_info">Category: <%= Category.find(@product.category_id).name %></span><br>
+      <span class="product_info">価格: ¥<%= @product.price %></span><br>
+      <span class="product_info">カテゴリー: <%= Category.find(@product.category_id).name %></span><br>
 
       <span class="detail">商品詳細</span><br><br><br><br>
       <span class="detail jumbotron"><%= @product.detail %></span><br><br><br><br>
@@ -19,6 +19,30 @@
       <span class="timestamp">
         Updated <%= time_ago_in_words(@product.updated_at) %> ago.
       </span>
+    </ol>
+
+    <ol class="stocks">
+      <% if stock_amount > 100 %>
+        <h4>サイズ名: <%= product_size %> / 在庫: ○</h4><br>
+      <% elsif stock_amount > 0 %>
+        <h4>サイズ名: <%= product_size %> / 在庫数: <%= stock_amount(size) %></h4><br>
+      <% else %>
+        <h4>サイズ名: <%= product_size %> / 在庫: 品切れ<br></h4>
+      <% end %>
+    </ol>
+  </div>
+  <div class="col-md-10 col-md-offset-1">
+    <ol class="add_cart">
+      <% if stock_amount > 0 %>
+        <%= form_with url: item_path do |form| %>
+          <%= hidden_field_tag :product_id, @product.id %>
+          <%= form.label :数量 %>
+          <%= form.number_field :quantity, min: 1, max: stock_amount %>
+          <%= form.submit "カートに追加", class: "btn btn-primary" %>
+        <% end %>
+      <% else %>
+        <h3>次回入荷をお待ちください。</h3>
+      <% end %>
     </ol>
   </div>
 </div>

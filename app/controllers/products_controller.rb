@@ -3,13 +3,6 @@ class ProductsController < ApplicationController
   before_action :correct_user,   only: [:edit, :update]
 
   def index
-    # if word_search
-    #   @products = Product.paginate(page: params[:page]).search(params[:word_search]).order(created_at: “DESC”)
-    # elsif select_search
-    #   @products = Product.paginate(page: params[:page]).search(params[:select_search]).order(created_at: “DESC”)
-    # else
-    #   @products = Product.paginate(page: params[:page])
-    # end
   end
 
   def new
@@ -19,7 +12,7 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
-      flash[:success] = "Product added!"
+      flash[:success] = "商品が追加されました!"
       redirect_to login_path
     else
       render 'new'
@@ -28,6 +21,7 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
+    @product_sizes = Stock.where(product_id: params[:id]).to_a
   end
 end
 

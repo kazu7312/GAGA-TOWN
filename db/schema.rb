@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191120103536) do
+ActiveRecord::Schema.define(version: 20191127003506) do
 
   create_table "brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -19,10 +19,8 @@ ActiveRecord::Schema.define(version: 20191120103536) do
 
   create_table "carts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
-    t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_carts_on_item_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -43,10 +41,14 @@ ActiveRecord::Schema.define(version: 20191120103536) do
   create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "product_id"
     t.bigint "size_id"
-    t.integer "quantity"
+    t.integer "quantity", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "cart_id"
+    t.bigint "purchase_id"
+    t.index ["cart_id"], name: "index_items_on_cart_id"
     t.index ["product_id"], name: "index_items_on_product_id"
+    t.index ["purchase_id"], name: "index_items_on_purchase_id"
     t.index ["size_id"], name: "index_items_on_size_id"
   end
 
@@ -54,7 +56,7 @@ ActiveRecord::Schema.define(version: 20191120103536) do
     t.string "name"
     t.bigint "category_id"
     t.bigint "brand_id"
-    t.integer "price"
+    t.integer "price", default: 0
     t.text "detail"
     t.string "icon"
     t.datetime "created_at", null: false
@@ -69,15 +71,16 @@ ActiveRecord::Schema.define(version: 20191120103536) do
 
   create_table "purchases", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
-    t.bigint "item_id"
     t.string "destination_name"
     t.string "destination_address"
     t.string "destination_postal_code"
     t.string "credit_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_id"
+    t.integer "total"
     t.index ["created_at"], name: "index_purchases_on_created_at"
-    t.index ["item_id"], name: "index_purchases_on_item_id"
+    t.index ["product_id"], name: "index_purchases_on_product_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
@@ -89,7 +92,7 @@ ActiveRecord::Schema.define(version: 20191120103536) do
   create_table "stocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "product_id"
     t.bigint "size_id"
-    t.integer "count"
+    t.integer "stock", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_stocks_on_product_id"
@@ -109,15 +112,16 @@ ActiveRecord::Schema.define(version: 20191120103536) do
     t.index ["email"], name: "index_users_on_email"
   end
 
-  add_foreign_key "carts", "items"
   add_foreign_key "carts", "users"
   add_foreign_key "favorites", "products"
   add_foreign_key "favorites", "users"
+  add_foreign_key "items", "carts"
   add_foreign_key "items", "products"
+  add_foreign_key "items", "purchases"
   add_foreign_key "items", "sizes"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
-  add_foreign_key "purchases", "items"
+  add_foreign_key "purchases", "products"
   add_foreign_key "purchases", "users"
   add_foreign_key "stocks", "products"
   add_foreign_key "stocks", "sizes"

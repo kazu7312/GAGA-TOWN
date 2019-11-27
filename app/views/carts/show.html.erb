@@ -1,2 +1,21 @@
-<h1>Carts#show</h1>
-<p>Find me in app/views/carts/show.html.erb</p>
+<% provide(:title, "Shopping cart") %>
+
+<h1>カート一覧</h1>
+
+<ul>
+  <% @cart.items.each do |item| %>
+    <li>
+      商品名: <%= item.product.name %> / 価格: <%= number_to_currency(item.product.price, unit: "￥", precision: 0) %> / サイズ: <%= Size.find(Stock.find_by(product_id: item.product.id).size_id).name %> / 数量: <%= item.quantity %> / 小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %>
+    </li>
+    <ul>
+      <li><%= link_to "1つ追加", item_add_path(:id => item), method: :post %></li>
+      <li><%= link_to "1つ減らす", item_reduce_path(:id => item), method: :post %></li>
+      <li><%= link_to "カートから削除", item_path(item), method: :delete %></li>
+    </ul><br>
+  <% end %>
+</ul>
+
+<h3>合計金額: <%= number_to_currency(@cart.sub_total, unit: "￥", precision: 0) %></h3>
+
+<%= link_to "会計へ進む", new_purchase_path %><br>
+<%= link_to "カートを空にする", cart_path(@current_cart),method: :delete, data: {confirm: "本当によろしいですか？"} %>

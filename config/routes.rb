@@ -1,30 +1,4 @@
 Rails.application.routes.draw do
-  get 'purchases/index'
-
-  get 'purchases/show'
-
-  get 'purchases/new'
-
-  get 'purchases/create'
-
-  get 'items/create'
-
-  get 'items/add_quantity'
-
-  get 'items/reduce_quantity'
-
-  get 'items/destroy'
-
-  get 'carts/show'
-
-  get 'carts/create'
-
-  get 'carts/edit'
-
-  get 'carts/update'
-
-  get 'carts/destroy'
-
   root "static_pages#home"
   post '/', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
@@ -33,7 +7,6 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
   post '/signup',  to: 'users#create'
-  resources :users
 
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
@@ -42,5 +15,16 @@ Rails.application.routes.draw do
   get '/search', to: 'search#new'
   post '/search', to: 'search#create'
 
+  get 'carts/:id', to: 'carts#show', as: 'cart'
+  delete 'carts/:id', to: 'carts#destroy'
+
+  post 'items/:id/add', to: 'items#add_quantity', as: 'item_add'
+  post 'items/:id/reduce', to: 'items#reduce_quantity', as: 'item_reduce'
+  post 'items/:id', to: 'items#create'
+  get 'items/:id', to: 'items#show', as: 'item'
+  delete 'items/:id', to: 'items#destroy'
+
+  resources :users
   resources :products
+  resources :purchases
 end
