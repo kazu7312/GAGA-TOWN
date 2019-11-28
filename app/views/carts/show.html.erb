@@ -5,7 +5,7 @@
 <ul>
   <% @cart.items.each do |item| %>
     <li>
-      商品名: <%= item.product.name %> / 価格: <%= number_to_currency(item.product.price, unit: "￥", precision: 0) %> / サイズ: <%= Size.find(Stock.find_by(product_id: item.product.id).size_id).name %> / 数量: <%= item.quantity %> / 小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %>
+      商品名: <%= item.product.name %> / 価格: <%= number_to_currency(item.product.price, unit: "￥", precision: 0) %> / サイズ: <%= Size.find(item[:size_id]).name %> / 数量: <%= item.quantity %> / 小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %>
     </li>
     <ul>
       <li><%= link_to "1つ追加", item_add_path(:id => item), method: :post %></li>

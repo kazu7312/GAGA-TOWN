@@ -1,7 +1,16 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "gaga town", root_path, id: "logo" %>
+    <%= link_to "gaga town　", root_path, id: "logo" %>
+
     <nav>
+      <ul class="nav navbar-nav navbar-left">
+        <li>
+          <%= form_tag search_path, method: :get do %>
+            <%= text_field_tag :name, params[:name], size: 35, placeholder: "何かお探しですか？", class:'form-control' %></li>
+            <li><%= submit_tag :🔍, class:'btn btn-primary' %>
+          <% end %>
+        </li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "ホーム", root_path %></li>
         <% if logged_in? %>

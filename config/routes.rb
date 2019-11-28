@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'favorites/index'
+
+  get 'favorites/new'
+
+  get 'favorites/create'
+
+  get 'favorites/destroy'
+
   root "static_pages#home"
   post '/', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'

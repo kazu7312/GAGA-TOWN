@@ -20,8 +20,13 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find(params[:id])
-    @product_sizes = Stock.where(product_id: params[:id]).to_a
+    @product       = Product.find(params[:id])
+
+    #Stocksテーブルの中から、商品詳細に表示する商品の
+    #idに一致するレコードを全て@product_sizesに代入
+    #一つの商品はいくつかのsize_idを持つので、一致するレコードが
+    #ハッシュ化され、配列の中に入れ込まれる（[{}, {}]みたいに）
+    @product_sizes = Stock.where("product_id = ?", params[:id]).order("size_id").to_a
   end
 end
 

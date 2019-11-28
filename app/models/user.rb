@@ -47,8 +47,26 @@ class User < ApplicationRecord
   end
 
   # 試作feedの定義
- # 完全な実装は次章の「ユーザーをフォローする」を参照
- def feed
-   Book.where("user_id = ?", id)
- end
+  # 完全な実装は次章の「ユーザーをフォローする」を参照
+  def feed
+    Book.where("user_id = ?", id)
+  end
+
+ #お気に入り周りの機能
+  def like(product)
+    favorites.find_or_create_by(product_id: product.id)
+  end
+
+  def unlike(product)
+    favorite = favorites.find_by(product_id: product.id)
+    favorite.destroy if favorite
+  end
+
+   #お気にり登録判定
+  # def  favproduct?(product)
+  #   self.favproducts.include?(product)
+  # end
+
+
+
 end

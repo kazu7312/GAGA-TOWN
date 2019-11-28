@@ -41,7 +41,7 @@ class PurchasesController < ApplicationController
         redirect_to root_path
       rescue
         p "ロールバック"
-        flash[:danger] = "申し訳ありません。カートの商品は品切れとなりました。"
+        flash[:danger] = "申し訳ありません。カート商品の在庫が不足しております。"
         redirect_to new_purchase_path
       end
     end
