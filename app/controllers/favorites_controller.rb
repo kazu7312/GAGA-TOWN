@@ -8,7 +8,7 @@ class FavoritesController < ApplicationController
   def create
     product = Product.find(params[:product_id])
     current_user.like(product)
-    flash[:success] = 'お気に入りリストに登録しました。'
+    flash[:success] = 'お気に入りリストに登録しました'
     redirect_back(fallback_location: root_path)
   end
 

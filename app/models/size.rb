@@ -1,4 +1,4 @@
 class Size < ApplicationRecord
-  has_many :items, dependent: :destroy
-  has_many :stocks, dependent: :destroy
+  has_many :items
+  has_many :stocks
 end

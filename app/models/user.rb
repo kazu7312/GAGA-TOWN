@@ -1,7 +1,9 @@
 class User < ApplicationRecord
-  has_many :purchases, dependent: :destroy
+  has_many :purchases
   has_many :carts, dependent: :destroy
-  has_many :favorites, dependent: :destroy
+  has_many :favorites
+  has_many :products
+  has_many :favproducts, through: :favorites, source: :product
 
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
@@ -62,10 +64,10 @@ class User < ApplicationRecord
     favorite.destroy if favorite
   end
 
-   #お気にり登録判定
-  # def  favproduct?(product)
-  #   self.favproducts.include?(product)
-  # end
+  #お気に入り判定
+  def favproduct?(product)
+    self.favproducts.include?(product)
+  end
 
 
 

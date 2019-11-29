@@ -36,6 +36,7 @@ class ItemsController < ApplicationController
       @item.save
       redirect_to cart_path(current_cart)
     end
+
   end
 
   def add_quantity
@@ -63,5 +64,5 @@ end
 
 private
   def item_params
-    params.require(:item).permit(:quantity,:product_id, :cart_id)
+    params.require(:item).permit(:quantity, :product_id, :cart_id)
   end

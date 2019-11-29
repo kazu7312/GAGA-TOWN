@@ -1,0 +1,8 @@
+<% if @favproducts.any? %>
+  <ol class="products">
+    <%= render @favproducts %>
+  </ol>
+  <% if false %>
+  <%= will_paginate @favproducts %>
+  <% end %>
+<% end %>

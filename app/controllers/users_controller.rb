@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: :destroy
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :likes]
+  before_action :correct_user,   only: [:edit, :update, :likes]
+  before_action :admin_user,     only: [:destroy, :likes]
 
   def index
     @users = User.paginate(page: params[:page])
@@ -41,10 +41,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-     User.find(params[:id]).destroy
-     flash[:success] = "User deleted"
-     redirect_to users_url
-   end
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to users_url
+  end
+
+  def likes
+    @user = User.find(params[:id])
+    @favproducts = @user.favproducts
+  end
 
 
   private

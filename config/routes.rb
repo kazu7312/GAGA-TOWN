@@ -1,12 +1,4 @@
 Rails.application.routes.draw do
-  get 'favorites/index'
-
-  get 'favorites/new'
-
-  get 'favorites/create'
-
-  get 'favorites/destroy'
-
   root "static_pages#home"
   post '/', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
@@ -32,7 +24,14 @@ Rails.application.routes.draw do
   get 'items/:id', to: 'items#show', as: 'item'
   delete 'items/:id', to: 'items#destroy'
 
-  resources :users
+
+  resources :users do
+    member do
+      get :likes
+    end
+  end
+  
   resources :products
   resources :purchases
+  resources :favorites, only: [:create, :destroy]
 end
