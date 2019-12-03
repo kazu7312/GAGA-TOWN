@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   has_many :users, through: :favorites
   belongs_to :category
   belongs_to :brand
-  belongs_to :user
+  belongs_to :user, optional: true
   default_scope -> {order(created_at: :desc)}
 
 end

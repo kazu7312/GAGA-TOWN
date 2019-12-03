@@ -1,0 +1,16 @@
+<% provide(:title, 'ストック登録') %>
+<h1>新規ストック追加</h1>
+<%= form_for(@stock) do |f| %>
+  <%= f.hidden_field :product_id, :value => params[:product_id] %>
+  <p>
+    <%= f.label :サイズ %><br>
+    <%= f.collection_select :size_id, Size.all, :id, :name, {required: true} %>
+  </p>
+  <p>
+    <%= f.label :追加ストック数 %><br>
+    <%= f.number_field :stock, class: 'form-control', min:1, required: true, placeholder: '半角数字で入力', value: nil %>
+  </p><br>
+  <p>
+    <%= f.submit "ストックを追加する", class: 'btn btn-primary'%>
+  </p>
+<% end %>

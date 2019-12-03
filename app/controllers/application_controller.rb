@@ -14,6 +14,22 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def correct_user
+      @user = User.find(params[:id])
+      unless current_user?(@user)
+        flash[:danger] = "Please log in with correct user."
+        redirect_to(root_url)
+      end
+    end
+
+    def admin_user
+      unless current_user.admin
+        flash[:danger] = "Please log in with correct user."
+        redirect_to(root_url)
+      end
+    end
+
+
     def search_params?
       !(params[:name].nil? && params[:category_id].nil? && params[:brand_id].nil? && params[:price].nil? && params[:detail].nil? && params[:icon].nil?)
     end

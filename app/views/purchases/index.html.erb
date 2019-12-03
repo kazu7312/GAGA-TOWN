@@ -1,11 +1,19 @@
-<h1>購入履歴</h1>
-
-<% @purchases.each do |purchase| %>
-  <p>宛名: <%= purchase.destination_name %></p>
-  <p>送り先: <%= purchase.destination_address %></p>
-  <p>購入商品: </p>
-  <ul>
-    <%= purchase.product.name %> x <%= purchase.total %>
-  </ul>
-  ----------------------------------------------------------------
+<% provide(:title, "Purchase history") %>
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <%= render 'shared/user_info' %>
+      </section>
+      <section class="product_form">
+        <%= render 'shared/search_form' %>
+      </section>
+    </aside>
+    <div class="col-md-8">
+      <h3 class="koga">購入履歴</h3>
+      <%= render 'shared/purchase_index' %>
+    </div>
+  </div>
+<% else %>
+  redirect_to root_path
 <% end %>

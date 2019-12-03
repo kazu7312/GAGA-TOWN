@@ -1,0 +1,16 @@
+<% provide(:title, 'ストック数変更') %>
+<h1>ストック数変更</h1>
+<%= form_with(url: stock_path, method: :patch) do |f| %>
+  <%= f.hidden_field :product_id, :value => @product_id %>
+  <p>
+    <%= f.label :サイズ %><br>
+    <%= f.collection_select :size_id, Size.where(id: size_ids(@stock_sizes)), :id, :name, {required: true} %>
+  </p>
+  <p>
+    <%= f.label :追加ストック数 %><br>
+    <%= f.number_field :add_stock, class: 'form-control', required: true, placeholder: '半角数字で入力(減らす場合は負数で入力)', value: nil %>
+  </p><br>
+  <p>
+    <%= f.submit "ストックを追加する", class: 'btn btn-primary'%>
+  </p>
+<% end %>

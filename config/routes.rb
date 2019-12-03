@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # get 'stocks/new'
+  # post 'stocks/create'
+  # get 'stocks/edit'
+  # post 'stocks/update'
+
   root "static_pages#home"
   post '/', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
@@ -30,8 +35,9 @@ Rails.application.routes.draw do
       get :likes
     end
   end
-  
+
   resources :products
   resources :purchases
   resources :favorites, only: [:create, :destroy]
+  resources :stocks, only: [:new, :create, :edit, :update]
 end

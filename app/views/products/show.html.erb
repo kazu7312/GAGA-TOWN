@@ -6,12 +6,12 @@
   <div class="col-md-10 col-md-offset-1">
     <ol class="products">
       <span class="product_name">
-      <%= link_to @product.name, product_path(@product.id) %></span><br>
-      <span class="product_info">価格: ¥<%= @product.price %></span><br>
-      <span class="product_info">カテゴリー: <%= Category.find(@product.category_id).name %></span><br>
+      <%= link_to @product.name, product_path(@product.id) %></span>
+      <span class="product_info">価格: ¥<%= @product.price %></span>
+      <span class="product_info">カテゴリー: <%= Category.find(@product.category_id).name %></span>
 
-      <span class="detail">商品詳細</span><br><br><br><br>
-      <span class="detail jumbotron"><%= @product.detail %></span><br><br><br><br>
+      <span class="detail">商品詳細</span><br><br><br>
+      <span class="detail jumbotron"><%= @product.detail %></span>
 
       <span class="timestamp">
         Added <%= time_ago_in_words(@product.created_at) %> ago.
@@ -21,37 +21,41 @@
       </span>
     </ol>
 
-    <ol class="stocks">
-      <% @product_sizes.each do |each_product| %>
-        <% size_id      = each_product[:size_id] %>
-        <% product_id   = each_product[:product_id] %>
-        <% if each_amount(size_id) > 100 %>
-          <h4>サイズ: <%= each_size(size_id) %> / 在庫: ○</h4>
-        <% elsif each_amount(size_id) > 0 %>
-          <h4>サイズ: <%= each_size(size_id) %> / 在庫数: <%= each_amount(size_id) %></h4>
-        <% else %>
-          <h4>サイズ: <%= each_size(size_id) %> / 在庫: 品切れ</h4>
-        <% end %>
-      <% end %>
-    </ol>
-
-    <%= form_with url: item_path do |form| %>
-      <%= hidden_field_tag :product_id, @product.id %>
-      <%= form.label :サイズ %>
-      <%= form.collection_select(:size_id, Size.where(id: size_ids(@product_sizes)), :id, :name) %>
-      <%= form.number_field :quantity, class: 'form-control', min:1, max:100, placeholder: '購入数を半角数字で入力してください' %><br>
-      <%= form.submit "カートに追加", class: 'btn btn-primary' %><br>
-    <% end %><br>
-
-    <% if current_user.favproduct?(@product) %>
-      <%= form_for(current_user.favorites.find_by(product_id: @product.id), html: { method: :delete }) do |f| %>
-        <%= hidden_field_tag :product_id, @product.id %>
-        <%= f.submit 'お気に入り登録解除', class: 'btn btn-danger' %>
-      <% end %>
+    <% if @product_sizes.empty? %>
+      <h3>ただいまこちらの商品はお取り扱いしておりません。</h3>
     <% else %>
-      <%= form_for(current_user.favorites.build) do |f| %>
+      <ol class="stocks">
+        <% @product_sizes.each do |each_product| %>
+          <% size_id      = each_product[:size_id] %>
+          <% product_id   = each_product[:product_id] %>
+          <% if each_amount(size_id) > 100 %>
+            <h4>サイズ: <%= each_size(size_id) %> / 在庫: ○</h4>
+          <% elsif each_amount(size_id) > 0 %>
+            <h4>サイズ: <%= each_size(size_id) %> / 在庫数: <%= each_amount(size_id) %></h4>
+          <% else %>
+            <h4>サイズ: <%= each_size(size_id) %> / 在庫: 品切れ</h4>
+          <% end %>
+        <% end %>
+      </ol>
+
+      <%= form_with url: item_path do |form| %>
         <%= hidden_field_tag :product_id, @product.id %>
-        <%= f.submit 'お気に入り登録', class: 'btn btn-default' %>
+        <%= form.label :サイズ %>
+        <%= form.collection_select(:size_id, Size.where(id: size_ids(@product_sizes)), :id, :name) %><br>
+        <%= form.number_field :quantity, class: 'form-control', min:1, max:100, placeholder: '購入数を半角数字で入力してください' %><br>
+        <%= form.submit "カートに追加", class: 'btn btn-primary' %>
+      <% end %><br>
+
+      <% if current_user.favproduct?(@product) %>
+        <%= form_for(current_user.favorites.find_by(product_id: @product.id), html: { method: :delete }) do |f| %>
+          <%= hidden_field_tag :product_id, @product.id %>
+          <%= f.submit 'お気に入り登録解除', class: 'btn btn-danger' %>
+        <% end %>
+      <% else %>
+        <%= form_for(current_user.favorites.build) do |f| %>
+          <%= hidden_field_tag :product_id, @product.id %>
+          <%= f.submit 'お気に入り登録', class: 'btn btn-default' %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+before_action  :current_cart
 
   def create
     if params[:quantity].to_i == 0

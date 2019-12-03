@@ -1,0 +1,36 @@
+<li>
+  <span class="product_name">
+    <%= link_to purchase.product_name, product_path(purchase.product_id) %>
+  </span>
+  <span class="product_info">
+    カテゴリー: <%= purchase.category_name %>
+  </span>
+
+  <span class="product_info">
+    ブランド: <%= purchase.brand_name %>
+  </span>
+
+  <span class="product_info">
+    サイズ: <%= Size.find(purchase.size_id).name %>
+  </span>
+
+  <span class="product_info">
+    単価: ￥<%= purchase.price %>
+  </span>
+
+  <span class="product_info">
+    数量: <%= purchase.total %>
+  </span>
+
+  <span class="picture jumbotron">
+    <%= purchase.icon %>
+  </span>
+
+  <span class="timestamp">
+    Added <%= time_ago_in_words(purchase.created_at) %> ago.
+  </span>
+
+  <span class="timestamp">
+    Updated <%= time_ago_in_words(purchase.updated_at) %> ago.
+  </span>
+</li>

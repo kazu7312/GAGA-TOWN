@@ -255,22 +255,37 @@ input {
   }
 }
 
-/* books */
+/* products */
 
-.books {
+.products {
   list-style: none;
   padding: 0;
   li {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
   }
-  .user {
-    margin-top: 5em;
-    padding-top: 0;
-  }
-  .content {
+
+  .product_name {
+    font-size: 1.5em;
     display: block;
-    margin-left: 60px;
+    margin-bottom: 1em
+  }
+  .product_info {
+    font-size: 1.5em;
+    display: block;
+    margin-left: 1em;
+    text-align: right;
+  }
+  .product1_info {
+    font-size: 1.5em;
+    display: block;
+    margin-left: 1em;
+  }
+  .detail {
+    font-size: 1.2em;
+    display: block;
+    margin-top: 1em;
+    margin-left: 1em;
     img {
       display: block;
       padding: 5px 0;
@@ -279,7 +294,8 @@ input {
   .timestamp {
     color: $gray-light;
     display: block;
-    margin-left: 60px;
+    text-align: right;
+    margin-top: 1em;
   }
   .gravatar {
     float: left;
@@ -300,4 +316,46 @@ span.picture {
   input {
     border: 0;
   }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* products */
+
+.orders {
+  list-style: none;
+  padding: 0;
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  .order_id {
+    font-size: 1.5em;
+    display: block;
+    margin-bottom: 1em
+  }
+  .order_info {
+    font-size: 1.5em;
+    display: block;
+    margin-left: 1em;
+    text-align: right;
+  }
+  .order_send_to {
+    font-size: 1.5em;
+    display: block;
+    margin-left: 1em;
+    text-align: left;
+  }
+
+  .timestamp {
+    color: $gray-light;
+    display: block;
+    text-align: right;
+    margin-top: 1em;
+  }
+
 }

@@ -39,3 +39,9 @@
   <input class="btn btn-primary" name="commit" type="submit"
          value="Search" />
 </form>
+
+<h3>
+<% if logged_in? && current_user.admin %>
+  <%= link_to "商品追加", new_product_path %>
+<% end %>
+</h3>

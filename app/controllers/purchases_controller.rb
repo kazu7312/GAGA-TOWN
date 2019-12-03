@@ -1,6 +1,7 @@
 class PurchasesController < ApplicationController
+
   def index
-    @purchases = Purchase.paginate(page: params[:page])
+    @purchases = Purchase.paginate(page: params[:page]).where(user_id: current_user).order(created_at: "DESC")
   end
 
   def show
@@ -28,7 +29,7 @@ class PurchasesController < ApplicationController
             @stock.stock -= item.quantity
             if @stock.stock >= 0
               @stock.save!
-              @purchase = Purchase.new(user_id: @cart.user_id, product_id: item.product_id, total: item.quantity)
+              @purchase = Purchase.new(user_id: @cart.user_id, product_id: item.product_id, total: item.quantity, size_id: item.size_id, product_name: Product.find(item.product_id).name, category_name: Category.find(Product.find(item.product_id).category_id).name, brand_name: Brand.find(Product.find(item.product_id).brand_id).name, price: Product.find(item.product_id).price, detail: Product.find(item.product_id).detail, icon: Product.find(item.product_id).icon)
               @purchase.attributes = purchase_params
               @purchase.save!
             else
@@ -46,9 +47,9 @@ class PurchasesController < ApplicationController
       end
     end
   end
-end
 
   private
     def purchase_params
       params.require(:purchase).permit(:destination_name, :destination_postal_code, :destination_address, :credit_number)
     end
+end

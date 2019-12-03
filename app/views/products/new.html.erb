@@ -11,10 +11,10 @@
       <%= f.text_field :name, class: 'form-control' %>
 
       <%= f.label :カテゴリ %>
-      <%= f.select :category_id, [["hoge", 1]] %>
+      <%= f.collection_select :category_id, Category.all, :id, :name, class: 'form-control' %>
 
       <%= f.label :ブランド %>
-      <%= f.select :brand_id, [["hoge", 1]] %>
+      <%= f.collection_select :brand_id, Brand.all, :id, :name, class: 'form-control' %>
 
       <%= f.label :価格 %>
       <%= f.number_field :price, class: 'form-control' %>

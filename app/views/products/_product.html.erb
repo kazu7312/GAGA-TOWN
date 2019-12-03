@@ -1,23 +1,23 @@
-<li id="product-<%= product.id %>">
+<li>
   <span class="product_name">
     <%= link_to product.name, product_path(product.id) %>
-  </span><br>
+  </span>
 
   <span class="product_info">
     カテゴリー: <%= Category.find(product.category_id).name %>
-  </span><br>
+  </span>
 
   <span class="product_info">
     ブランド: <%= Brand.find(product.brand_id).name %>
-  </span><br>
+  </span>
 
   <span class="product_info">
     価格: ￥<%= product.price %>
-  </span><br><br><br><br>
+  </span>
 
   <span class="picture jumbotron">
     <%= product.icon %>
-  </span><br><br><br><br>
+  </span>
 
   <span class="timestamp">
     Added <%= time_ago_in_words(product.created_at) %> ago.
@@ -25,5 +25,14 @@
 
   <span class="timestamp">
     Updated <%= time_ago_in_words(product.updated_at) %> ago.
+  </span>
+  <span class="timestamp">
+    <% if logged_in? && current_user.admin %>
+      <%= link_to "商品情報変更", edit_product_path(product.id) %>
+      <%= link_to "商品削除", product_path(product.id), method: :delete,
+                                       data: { confirm: "You sure?" } %>
+      <%= link_to "新規ストック追加", new_stock_path(product_id: product.id) %>
+      <%= link_to "ストック数変更", edit_stock_path(id: product.id) %>
+    <% end %>
   </span>
 </li>
