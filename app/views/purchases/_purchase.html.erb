@@ -2,35 +2,42 @@
   <span class="product_name">
     <%= link_to purchase.product_name, product_path(purchase.product_id) %>
   </span>
-  <span class="product_info">
-    カテゴリー: <%= purchase.category_name %>
-  </span>
+  <table>
+    <tr>
+      <td width="240">
+        <%= image_tag Product.find(purchase.product_id).icon.url, :size =>'230x180' if Product.where(id: purchase.product_id).exists? && Product.find(purchase.product_id).icon? %>
+        <h4><%= "Sorry, the image does not exist." if !Product.where(id: purchase.product_id).exists? || !Product.find(purchase.product_id).icon? %></h4>
 
-  <span class="product_info">
-    ブランド: <%= purchase.brand_name %>
-  </span>
+      </td>
+      <td width="500">
+        <span class="product_info">
+          カテゴリー: <%= purchase.category_name %>
+        </span>
 
-  <span class="product_info">
-    サイズ: <%= Size.find(purchase.size_id).name %>
-  </span>
+        <span class="product_info">
+          ブランド: <%= purchase.brand_name %>
+        </span>
 
-  <span class="product_info">
-    単価: ￥<%= purchase.price %>
-  </span>
+        <span class="product_info">
+          サイズ: <%= Size.find(purchase.size_id).name %>
+        </span>
 
-  <span class="product_info">
-    数量: <%= purchase.total %>
-  </span>
+        <span class="product_info">
+          単価: ￥<%= purchase.price %>
+        </span>
 
-  <span class="picture jumbotron">
-    <%= purchase.icon %>
-  </span>
+        <span class="product_info">
+          数量: <%= purchase.total %>
+        </span>
 
-  <span class="timestamp">
-    Added <%= time_ago_in_words(purchase.created_at) %> ago.
-  </span>
+        <span class="timestamp">
+          Added <%= time_ago_in_words(purchase.created_at) %> ago.
+        </span>
 
-  <span class="timestamp">
-    Updated <%= time_ago_in_words(purchase.updated_at) %> ago.
-  </span>
+        <span class="timestamp">
+          Updated <%= time_ago_in_words(purchase.updated_at) %> ago.
+        </span>
+      </td>
+    </tr>
+  </table>
 </li>

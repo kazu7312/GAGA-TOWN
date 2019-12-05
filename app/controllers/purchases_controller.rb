@@ -1,4 +1,6 @@
 class PurchasesController < ApplicationController
+  before_action :logged_in_user
+  before_action :current_cart
 
   def index
     @purchases = Purchase.paginate(page: params[:page]).where(user_id: current_user).order(created_at: "DESC")
@@ -25,7 +27,7 @@ class PurchasesController < ApplicationController
         ActiveRecord::Base.transaction do
           #そのユーザの買う量を変更できないように
           @cart_items.each do |item|
-            @stock = Stock.lock.find_by(product_id: item.product_id)
+            @stock = Stock.lock.where(product_id: item.product_id).find_by(size_id: item.size_id)
             @stock.stock -= item.quantity
             if @stock.stock >= 0
               @stock.save!

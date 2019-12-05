@@ -5,14 +5,14 @@ before_action :current_cart
     @cart = @current_cart
   end
 
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
+  # def create
+  # end
+  #
+  # def edit
+  # end
+  #
+  # def update
+  # end
 
   def destroy
     @cart = @current_cart

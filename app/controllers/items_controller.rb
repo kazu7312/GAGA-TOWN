@@ -5,6 +5,9 @@ before_action  :current_cart
     if params[:quantity].to_i == 0
       flash[:danger] = "購入数を入力してください"
       redirect_to product_path
+    elsif params[:quantity].to_i < 0
+      flash[:danger] = "正しい購入数を入力してください"
+      redirect_to product_path
     else
       # Find associated product and current cart
       chosen_product = Product.find(params[:product_id])

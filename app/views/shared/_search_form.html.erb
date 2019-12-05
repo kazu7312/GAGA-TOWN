@@ -4,7 +4,7 @@
 
   <div class="field">
     <label for="category">カテゴリー</label>
-    <select id="category" name="category_id">
+    <select id="category" name="category_id" class="form-control">
       <option value=""></option>
       <option value="1">トップス</option>
       <option value="2">ジャケット・アウター</option>
@@ -19,7 +19,7 @@
     </select>
 
     <label for="brand">ブランド</label>
-    <select id="brand" name="brand_id">
+    <select id="brand" name="brand_id" class="form-control">
       <option value=""></option>
       <option value="1">adidas</option>
       <option value="2">BEAMS</option>
@@ -34,11 +34,11 @@
     </select>
 
     <label for="price">価格帯(上限)</label>
-    <input id="price" name="price" type="number" placeholder="Price(max)"/>
-  </div>
+    <input id="price" name="price" type="number" placeholder="Price(max)" min="0" class="form-control" />
+  </div><br>
   <input class="btn btn-primary" name="commit" type="submit"
          value="Search" />
-</form>
+</form><br>
 
 <h3>
 <% if logged_in? && current_user.admin %>

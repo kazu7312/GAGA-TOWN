@@ -1,33 +1,43 @@
-<% provide(:title, 'Purchase product') %>
+<% provide(:title, '購入確認') %>
 
 <h1>購入確認画面</h1>
 <ul>
   <% @cart.items.each do |item| %>
-    <li>商品: <%= item.product.name %> </li>
-    <li>価格: <%= item.product.price %> 円 </li>
-    <li>サイズ: <%= Size.find(Stock.find_by(product_id: item.product.id).size_id).name %> </li>
-    <li>数量: <%= item.quantity %> </li>
-    <li>小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %></li>
-    ---------------------------------------------------------------------------------------------------
+  <h4>商品: <%= item.product.name %></h4>
+  <table>
+    <tr>
+      <td width="200">
+        <%= image_tag item.product.icon.url, :size =>'140x110' if item.product.icon? %>
+        <h5><%= "Sorry, the image does not exist." if !item.product.icon? %></h5>
+      </td>
+      <td><h5>
+        <p>価格: <%= item.product.price %> 円 </p>
+        <p>サイズ: <%= Size.find(Stock.find_by(product_id: item.product.id).size_id).name %> </p>
+        <p>数量: <%= item.quantity %> </p>
+        <p>小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %></p>
+      </h5></td>
+    </tr>
+  </table><br>
   <% end %>
 </ul>
 <h3>合計金額: <%= number_to_currency(@cart.sub_total, unit: "￥", precision: 0) %></h3><br>
 <%= form_for(@purchase) do |f| %>
+<%= render 'shared/error_messages', object: @purchase %>
   <p>
-    <%= f.label :宛名 %><br>
-    <%= f.text_field :destination_name, required: true, autofocus: true %>
+    <%= f.label :宛名（入力必須） %><br>
+    <%= f.text_field :destination_name, class: 'form-control', required: true, autofocus: true, value: current_user.name %>
   </p>
   <p>
-    <%= f.label :送り先郵便番号 %><br>
-    <%= f.text_field :destination_postal_code, required: true %>
+    <%= f.label :送り先郵便番号（入力必須、半角数字とハイフンで入力） %><br>
+    <%= f.text_field :destination_postal_code, class: 'form-control', required: true, placeholder: "◯◯◯-◯◯◯◯", value: current_user.postal_code %>
   </p>
   <p>
-    <%= f.label :送り先住所 %><br>
-    <%= f.text_field :destination_address, required: true %>
+    <%= f.label :送り先住所（入力必須） %><br>
+    <%= f.text_field :destination_address, class: 'form-control', required: true, value: current_user.address %>
   </p>
   <p>
-    <%= f.label :クレジットカード番号 %><br>
-    <%= f.text_field :credit_number, required: true %>
+    <%= f.label :クレジットカード番号（入力必須、半角数字で入力） %><br>
+    <%= f.text_field :credit_number, class: 'form-control', required: true %>
   </p><br>
   <p>
     <%= f.submit "購入を確定する", class: 'btn btn-primary'%>

@@ -1,21 +1,31 @@
-<% provide(:title, "Shopping cart") %>
+<% provide(:title, "カート一覧") %>
 
 <h1>カート一覧</h1>
 
 <ul>
   <% @cart.items.each do |item| %>
-    <li>
+    <li><h4>
       商品名: <%= item.product.name %> / 価格: <%= number_to_currency(item.product.price, unit: "￥", precision: 0) %> / サイズ: <%= Size.find(item[:size_id]).name %> / 数量: <%= item.quantity %> / 小計: <%= number_to_currency(item.total_price, unit: "￥", precision: 0) %>
-    </li>
-    <ul>
-      <li><%= link_to "1つ追加", item_add_path(:id => item), method: :post %></li>
-      <li><%= link_to "1つ減らす", item_reduce_path(:id => item), method: :post %></li>
-      <li><%= link_to "カートから削除", item_path(item), method: :delete %></li>
-    </ul><br>
-  <% end %>
+    </h4></li>
+    <table>
+      <tr>
+        <td width="200">
+          <%= image_tag item.product.icon.url, :size =>'150x120' if item.product.icon? %>
+          <h4><%= "Sorry, the image does not exist." if !item.product.icon? %></h4>
+        </td>
+        <td>
+          <ul><h4>
+            <li><%= link_to "１つ追加", item_add_path(:id => item), method: :post %></li><br>
+            <li><%= link_to "１つ減らす", item_reduce_path(:id => item), method: :post %></li><br>
+            <li><%= link_to "カートから削除", item_path(item), method: :delete %></li>
+          </h4></ul>
+        </td>
+      </tr>
+    </table><br>
+  <% end %><br>
 </ul>
 
 <h3>合計金額: <%= number_to_currency(@cart.sub_total, unit: "￥", precision: 0) %></h3>
 
-<%= link_to "会計へ進む", new_purchase_path %><br>
-<%= link_to "カートを空にする", cart_path(@current_cart),method: :delete, data: {confirm: "本当によろしいですか？"} %>
+<h3><%= link_to "会計へ進む", new_purchase_path %></h3>
+<h3><%= link_to "カートを空にする", cart_path(@current_cart),method: :delete, data: {confirm: "本当によろしいですか？"} %></h3>

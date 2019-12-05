@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  # get 'stocks/new'
-  # post 'stocks/create'
-  # get 'stocks/edit'
-  # post 'stocks/update'
+  get 'sales/show'
 
   root "static_pages#home"
   post '/', to: 'static_pages#home'

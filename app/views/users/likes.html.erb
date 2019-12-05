@@ -1,19 +1,15 @@
-<% provide(:title, @user.name) %>
-<% if logged_in? %>
-  <div class="row">
-    <aside class="col-md-4">
-      <section class="user_info">
-        <%= render 'shared/user_info' %>
-      </section>
-      <section class="product_form">
-        <%= render 'shared/search_form' %>
-      </section>
-    </aside>
-    <div class="col-md-8">
-      <h3 class="koga">お気に入りリスト</h3>
-      <%= render 'shared/fav_index' %>
-    </div>
+<% provide(:title, "お気に入りリスト") %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <%= render 'shared/user_info' %>
+    </section>
+    <section class="product_form">
+      <%= render 'shared/search_form' %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3 class="koga">お気に入りリスト</h3>
+    <%= render 'shared/fav_index' %>
   </div>
-<% else %>
-  redirect_to root_path
-<% end %>
+</div>

@@ -1,5 +1,6 @@
 <% provide(:title, 'ストック数変更') %>
 <h1>ストック数変更</h1>
+<h2>ストック登録を済ませていない場合、先に「新規ストック登録」を行ってください</h2>
 <%= form_with(url: stock_path, method: :patch) do |f| %>
   <%= f.hidden_field :product_id, :value => @product_id %>
   <p>

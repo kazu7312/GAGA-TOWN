@@ -19,7 +19,7 @@ class StocksController < ApplicationController
       flash[:success] = "新規ストックが登録されました"
       redirect_to root_path
     else
-      flash[:danger] = "ストック登録に失敗しました"
+      flash.now[:danger] = "ストック登録に失敗しました"
       render 'new'
     end
   end
@@ -37,7 +37,7 @@ class StocksController < ApplicationController
       redirect_to root_path
     else
       flash[:danger] = "ストック追加に失敗しました"
-      render 'edit'
+      redirect_to root_path
     end
   end
 
