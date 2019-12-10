@@ -10,6 +10,10 @@ module TestHelper
     !session[:user_id].nil?
   end
 
+  def item_params
+    params.require(:item).permit(:quantity, :product_id, :cart_id)
+  end
+
 
     class Rack::Test::CookieJar
       def signed
@@ -67,6 +71,12 @@ module TestHelper
     cancel(current_order)
     @current_order = nil
   end
+
+  #お気に入り判定
+  def favproduct?(product)
+    self.favproducts.include?(product)
+  end
+
 
 
 

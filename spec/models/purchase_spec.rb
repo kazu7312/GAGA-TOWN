@@ -93,6 +93,8 @@ RSpec.describe Purchase, type: :model do
   it "クレジット番号が空白でないこと" do
     @purchase.credit_number = ""
     expect(@purchase).not_to be_valid
+    @purchase.credit_number = nil
+    expect(@purchase).not_to be_valid
   end
 
   it "クレジット番号が14字以上16字以下であること" do

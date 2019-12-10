@@ -28,4 +28,5 @@
 <h3>合計金額: <%= number_to_currency(@cart.sub_total, unit: "￥", precision: 0) %></h3>
 
 <h3><%= link_to "会計へ進む", new_purchase_path %></h3>
+
 <h3><%= link_to "カートを空にする", cart_path(@current_cart),method: :delete, data: {confirm: "本当によろしいですか？"} %></h3>

@@ -24,6 +24,8 @@ RSpec.describe Stock, type: :model do
   it "ストックが空白にならないこと" do
     @stock.stock = nil
     expect(@stock).not_to be_valid
+    @stock.stock = ""
+    expect(@stock).not_to be_valid
   end
 
   it "ストックが負数だとエラー" do

@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
     def admin_user
       unless current_user.admin
-        flash[:danger] = "正しいユーザーでログインしてください"
+        flash[:danger] = "管理者ユーザーでログインしてください"
         redirect_to(root_url)
       end
     end

@@ -32,6 +32,10 @@ RSpec.describe Item, type: :model do
   it "quantityが空白の場合エラー" do
     @item.quantity = nil
     expect(@item).not_to be_valid
+    @item.quantity = ""
+    expect(@item).not_to be_valid
+    @item.quantity = "a"
+    expect(@item).not_to be_valid
   end
 
   it "quantityが0以下だとエラー" do
@@ -47,6 +51,10 @@ RSpec.describe Item, type: :model do
 
   it "サイズIDが空白の場合エラー" do
     @item.size_id = nil
+    expect(@item).not_to be_valid
+    @item.size_id = -1
+    expect(@item).not_to be_valid
+    @item.size_id = 100000000
     expect(@item).not_to be_valid
   end
 end

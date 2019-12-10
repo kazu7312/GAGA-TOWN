@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   post 'items/:id/add', to: 'items#add_quantity', as: 'item_add'
   post 'items/:id/reduce', to: 'items#reduce_quantity', as: 'item_reduce'
-  post 'items/:id', to: 'items#create'
+  post 'items/:id', to: 'items#create', as: 'item_create'
   get 'items/:id', to: 'items#show', as: 'item'
   delete 'items/:id', to: 'items#destroy'
 
