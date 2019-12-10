@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
-  before_action :logged_in_user, only: [:new, :create, :edit, :update]
-  before_action :admin_user,     only: [:new, :create, :edit, :update]
+  #before_action :logged_in_user, only: [:new, :create, :edit, :update]
+  before_action :admin_user
 
   def new
     @stock = Stock.new(product_id: params[:product_id])

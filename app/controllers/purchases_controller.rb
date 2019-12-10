@@ -6,9 +6,9 @@ class PurchasesController < ApplicationController
     @purchases = Purchase.paginate(page: params[:page]).where(user_id: current_user).order(created_at: "DESC")
   end
 
-  def show
-    @purchase = Purchase.find(params[:id])
-  end
+  # def show
+  #   @purchase = Purchase.find(params[:id])
+  # end
 
   def new
     @purchase = Purchase.new
@@ -44,7 +44,7 @@ class PurchasesController < ApplicationController
         redirect_to root_path
       rescue
         p "ロールバック"
-        flash[:danger] = "申し訳ありません。カート商品の在庫が不足しております。"
+        flash[:danger] = "申し訳ありません。商品が売り切れたか、エラーが発生しました。"
         redirect_to new_purchase_path
       end
     end

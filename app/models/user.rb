@@ -17,7 +17,7 @@ class User < ApplicationRecord
                     format: { with: VALID_POSTAL_CODE_REGEX }
   validates :address, presence: true, length: { maximum: 255 }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { in: 6..15 }
 
   # 渡された文字列のハッシュ値を返す
   def User.digest(string)

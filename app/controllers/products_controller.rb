@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :logged_in_user, only: [:new, :create, :edit, :update, :destroy]
+  before_action :admin_user,     only: [:new, :create, :edit, :update, :destroy]
 
   def new
     @product = Product.new
@@ -47,7 +49,7 @@ class ProductsController < ApplicationController
   def destroy
     @product = Product.find(params[:id])
     @product.destroy
-    flash[:success] = "A product deleted!"
+    flash[:success] = "商品は削除されました"
     redirect_to root_url
   end
 

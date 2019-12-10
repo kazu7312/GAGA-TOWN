@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     def logged_in_user
       unless logged_in?
         store_location
-        flash[:danger] = "Please log in."
+        flash[:danger] = "ログインしてください"
         redirect_to login_url
       end
     end
@@ -18,14 +18,14 @@ class ApplicationController < ActionController::Base
     def correct_user
       @user = User.find(params[:id])
       unless current_user?(@user)
-        flash[:danger] = "Please log in with correct user."
+        flash[:danger] = "正しいユーザーでログインしてください"
         redirect_to(root_url)
       end
     end
 
     def admin_user
       unless current_user.admin
-        flash[:danger] = "Please log in with correct user."
+        flash[:danger] = "正しいユーザーでログインしてください"
         redirect_to(root_url)
       end
     end

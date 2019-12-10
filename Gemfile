@@ -35,6 +35,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'rspec-rails'
   gem 'rails-controller-testing'
+  gem 'simplecov'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -43,6 +45,11 @@ group :development do
 	gem 'spring',                '2.0.2'
 	gem 'spring-watcher-listen', '2.0.1'
 end
+
+group :test do
+  gem 'database_cleaner'
+end
+
 
 group :production do
   gem 'pg', '0.20.0'
