@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "products#destroy", type: :request do
+RSpec.describe "items#create", type: :request do
 
-  include SessionsHelper
 
     before do
       @category = Category.create!(name: "トップス")
@@ -21,66 +20,124 @@ RSpec.describe "products#destroy", type: :request do
                     price: 1500,
                     detail: "今冬の新作",
                     icon: "rails.png")
-      @user     = User.create!(name:  "Example User",
+      @user     = User.create!(name: "Example User",
                     email: "example@railstutorial.org",
                     password: "password",
                     password_confirmation: "password",
                     postal_code: "123-4567",
                     address: "東京都八王子市",
                     admin: true )
+      @user1    = User.create!(
+                    name:  "Example User",
+                    email: "example1@railstutorial.org",
+                    password: "password",
+                    password_confirmation: "password",
+                    postal_code: "123-4567",
+                    address: "東京都八王子市",
+                    admin: false )
+
       @cart     = Cart.create!(user_id: @user.id)
-      @item     = Item.new
+
     end
 
   describe "create" do
 
-    # it "ログインが済んでいない場合、ログインページへリダイレクト" do
-    #   get new_product_path
-    #   follow_redirect!
-    #   assert_select "div.alert"
-    #   expect(response).to render_template "sessions/new"
-    # end
-
     it "アイテムが正しく生成される場合" do
       log_in_as(@user)
+      get "/products/#{@product.id}"
       count = Item.count
-      post item_create_path(@item), params: { item: {
-        #id:         @item.id,
+      post item_create_path, params: {
         product_id: @product.id,
         size_id:    @size.id,
         quantity:   5,
         cart_id:    @cart.id
         }
-      }
-      expect(count+params[:quantity]).to eq Item.count
+      expect(count+1).to eq Item.count
       follow_redirect!
       expect(response).to render_template "carts/show"
     end
 
-
-    it "購入数が不正な場合" do
+    it "購入数が入力されていなかった場合" do
       log_in_as(@user)
-      counto = Order.count
-      countd = Detail.count
-      post "/cart", params: { product_id: @product.id, detail: { amount: 100001 } }
-      expect(counto).to eq Order.count
-      expect(countd).to eq Detail.count
+      get "/products/#{@product.id}"
+      count = Item.count
+      post item_create_path, params: {
+        product_id: @product.id,
+        size_id:    @size.id,
+        quantity:   0,
+        cart_id:    @cart.id
+      }
+      expect(count).to eq Item.count
       follow_redirect!
       expect(flash[:danger].nil?).to be_falsey
-      expect(any_carts?).to be_falsey
       expect(response).to render_template "products/show"
     end
 
-    it "管理者ユーザーでログイン" do
+    it "購入数が負数だった場合" do
       log_in_as(@user)
-      get new_product_path
-      expect(response).to have_http_status :success
-      expect(response).to render_template "products/new"
+      get "/products/#{@product.id}"
+      count = Item.count
+      post item_create_path, params: {
+        product_id: @product.id,
+        size_id:    @size.id,
+        quantity:   -1,
+        cart_id:    @cart.id
+      }
+      expect(count).to eq Item.count
+      follow_redirect!
+      expect(flash[:danger].nil?).to be_falsey
+      expect(response).to render_template "products/show"
+    end
+
+    it "購入する商品のproduct_idと同じproduct_idの商品がitem_table入っており、かつそのsize_idもitem_tableの商品と同じ場合" do
+      @item = Item.create!(
+        product_id: @product.id,
+        size_id:    @size.id,
+        quantity:   5,
+        cart_id:    @cart.id
+      )
+      log_in_as(@user)
+      get "/products/#{@product.id}"
+      count    = Item.count
+      quantity = Item.first.quantity
+      post item_create_path, params: {
+        product_id: @product.id,
+        size_id:    @size.id,
+        quantity:   5,
+        cart_id:    @cart.id
+        }
+      expect(count).to eq Item.count
+      expect(quantity+5).to eq Item.first.quantity
+      follow_redirect!
+      expect(response).to render_template "carts/show"
+    end
+
+    it "購入する商品のproduct_idと同じproduct_idの商品がitem_table入っており、かつそのsize_idはitem_tableの商品と異なる場合" do
+      @item = Item.create!(
+        product_id: @product.id,
+        size_id:    @size.id,
+        quantity:   5,
+        cart_id:    @cart.id
+      )
+      log_in_as(@user)
+      get "/products/#{@product.id}"
+      count    = Item.count
+      quantity = Item.first.quantity
+      post item_create_path, params: {
+        product_id: @product.id,
+        size_id:    @size1.id,
+        quantity:   8,
+        cart_id:    @cart.id
+        }
+      expect(count+1).to eq Item.count
+      expect(quantity+3).to eq Item.order("id DESC").first.quantity
+      follow_redirect!
+      expect(response).to render_template "carts/show"
     end
 
   end
 
-  describe "create" do
+  describe "add_quantity" do
 
     it "ログインが済んでいない場合、ログインページへリダイレクト" do
       count = Product.count
@@ -92,7 +149,7 @@ RSpec.describe "products#destroy", type: :request do
                       icon: @file } }
       expect(count).to eq Product.count
       follow_redirect!
-      assert_select "div.alert"
+      expect(flash[:danger].nil?).to be_falsey
       expect(response).to render_template "sessions/new"
     end
 
@@ -107,7 +164,7 @@ RSpec.describe "products#destroy", type: :request do
                       icon: @file } }
       expect(count).to eq Product.count
       follow_redirect!
-      assert_select "div.alert"
+      expect(flash[:danger].nil?).to be_falsey
       expect(response).to render_template "static_pages/home"
     end
 

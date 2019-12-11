@@ -36,7 +36,7 @@
                   <% end %>
                 <% end %>
               </ol>
-              <%= form_with url: item_path do |form| %>
+              <%= form_with url: item_create_path do |form| %>
                 <%= hidden_field_tag :product_id, @product.id %>
                 <%= form.label :サイズ %>
                 <%= form.collection_select(:size_id, Size.where(id: size_ids(@product_sizes)), :id, :name) %>

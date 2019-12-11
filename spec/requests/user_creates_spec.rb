@@ -19,6 +19,7 @@ RSpec.describe "ユーザー登録", type: :request do
   end
 
   it "正しい登録の場合、ユーザー登録に成功" do
+    get signup_path
     count = User.count
     post signup_path, params: { user: {
                  name:  "Example User",

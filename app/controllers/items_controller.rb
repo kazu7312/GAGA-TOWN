@@ -67,6 +67,6 @@ before_action  :current_cart
 end
 
 private
-  def item_params
-    params.require(:item).permit(:quantity, :product_id, :cart_id)
-  end
+  # def item_params
+  #   params.require(:item).permit(:quantity, :product_id, :cart_id)
+  # end

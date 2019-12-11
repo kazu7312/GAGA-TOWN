@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "ログイン・ログアウト", type: :request do
 
-  include SessionsHelper
 
   before do
     @user = User.create!( name:  "Example User",
@@ -40,7 +39,7 @@ RSpec.describe "ログイン・ログアウト", type: :request do
 
   it "正常なログアウト" do
     log_in_as(@user)
-    delete logout_path
+    delete logout_path(@user)
     expect(is_logged_in?).to be_falsey
     follow_redirect!
     expect(response).to render_template "static_pages/home"
@@ -76,6 +75,7 @@ RSpec.describe "ログイン・ログアウト", type: :request do
     assert_select "a[href=?]", logout_path, count: 0
   end
 
+
   # it "current_user returns right user when session is nil" do
   #   remember(@user)
   #   expect(@user).to eq current_user
@@ -87,11 +87,9 @@ RSpec.describe "ログイン・ログアウト", type: :request do
   #   expect(@user).not_to eq current_user
   # end
   #
-  # it "friendly-forwarding" do
-  #   get user_path(@user)
+  # it "フレンドリーフォワーディング" do
+  #   get "purchases/#{@user.id}/show"
   #   log_in_as(@user)
   #   follow_redirect!
-  #   expect(response).to render_template "users/show"
-  # end
-  #
+  #   expect(response).to render_template "purchases/#{@user.id}/show"
 end

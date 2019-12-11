@@ -31,25 +31,25 @@ class ApplicationController < ActionController::Base
     end
 
 
-    def search_params?
-      !(params[:name].nil? && params[:category_id].nil? && params[:brand_id].nil? && params[:price].nil? && params[:detail].nil? && params[:icon].nil?)
-    end
+    # def search_params?
+    #   !(params[:name].nil? && params[:category_id].nil? && params[:brand_id].nil? && params[:price].nil? && params[:detail].nil? && params[:icon].nil?)
+    # end
 
     def current_cart
       if cart = Cart.find_by(:user_id => session[:user_id])
         @current_cart = cart
       else
-        if session[:cart_id]
-          cart = Cart.find_by(:id => session[:cart_id])
-          if cart.present?
-            @current_cart = cart
-          else
-            session[:cart_id] = nil
-          end
-        end
-      end
-
-      if cart == nil
+      #   if session[:cart_id]
+      #     cart = Cart.find_by(:id => session[:cart_id])
+      #     if cart.present?
+      #       @current_cart = cart
+      #     else
+      #       session[:cart_id] = nil
+      #     end
+      #   end
+      # end
+      #
+      # if cart == nil
         @current_cart = Cart.create
         @current_cart.user_id = session[:user_id]
         @current_cart.save

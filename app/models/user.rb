@@ -50,11 +50,6 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, nil)
   end
 
-  # 試作feedの定義
-  # 完全な実装は次章の「ユーザーをフォローする」を参照
-  def feed
-    Book.where("user_id = ?", id)
-  end
 
  #お気に入り周りの機能
   def like(product)

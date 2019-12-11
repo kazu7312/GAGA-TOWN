@@ -15,7 +15,6 @@ RSpec.describe "ユーザー情報変更", type: :request do
                  password_confirmation: "password",
                  postal_code: "123-4567",
                  address: "東京都八王子市")
-    # @purchase = Purchase.create(user_id: @user.id, ordered_at: Time.zone.now)
   end
 
   describe "edit" do
@@ -61,29 +60,30 @@ RSpec.describe "ユーザー情報変更", type: :request do
       expect(response).to render_template "sessions/new"
     end
 
-    # it "不正なユーザーでアクセスした場合、homeへリダイレクト" do
-    #   log_in_as(@user)
-    #   name = "Example1 User"
-    #   email = "example2@railstutorial.org"
-    #   postal_code = "123-4568"
-    #   address = "東京都八王子町"
-    #   password = "password"
-    #   password_confirmation = "password"
-    #   patch user_path(@user1), params: { user: { name: name,
-    #                email: email,
-    #                postal_code: postal_code,
-    #                address: address,
-    #                password: password,
-    #                password_confirmation: password_confirmation } }
-    #   @user1.reload
-    #   expect(name).not_to eq @user1.name
-    #   expect(email).not_to eq @user1.email
-    #   expect(postal_code).not_to eq @user1.postal_code
-    #   expect(address).not_to eq @user1.address
-    #   follow_redirect!
-    #   assert_select "div.alert"
-    #   expect(response).to render_template "static_pages/home"
-    # end
+    it "不正なユーザーでアクセスした場合、homeへリダイレクト" do
+      log_in_as(@user)
+      name = "Example1 User"
+      email = "example2@railstutorial.org"
+      postal_code = "123-4568"
+      address = "東京都八王子町"
+      password = "password"
+      password_confirmation = "password"
+      patch user_path(@user1), params: { user: {
+                   name: name,
+                   email: email,
+                   postal_code: postal_code,
+                   address: address,
+                   password: password,
+                   password_confirmation: password_confirmation } }
+      @user1.reload
+      expect(name).not_to eq @user1.name
+      expect(email).not_to eq @user1.email
+      expect(postal_code).not_to eq @user1.postal_code
+      expect(address).not_to eq @user1.address
+      follow_redirect!
+      expect(flash[:danger].nil?).to be_falsey
+      expect(response).to render_template "static_pages/home"
+    end
 
     it "入力情報が不正で,updateに失敗した場合" do
       log_in_as(@user)

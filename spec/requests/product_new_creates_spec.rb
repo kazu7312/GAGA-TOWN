@@ -30,6 +30,7 @@ RSpec.describe "商品追加周り", type: :request do
                     address: "東京都八王子市",
                     admin: false )
       @file = fixture_file_upload("1057374906.g_400-w_g.jpg", true)
+      @file1 = fixture_file_upload("shoes_a500sam.jpg", true)
     end
 
   describe "new" do
@@ -119,6 +120,23 @@ RSpec.describe "商品追加周り", type: :request do
       expect(flash[:success].nil?).to be_falsey
       expect(response).to render_template "products/new"
     end
+
+    it "管理者で商品追加時、正しく商品追加される場合" do
+      log_in_as(@user)
+      count = Product.count
+      post products_path, params: { product: { name: "トップス M",
+                      category_id: @category.id,
+                      brand_id: @brand.id,
+                      price: 1500,
+                      detail: "今冬の一番人気",
+                      icon: @file1 } }
+      expect(count+1).to eq Product.count
+      follow_redirect!
+      expect(response).to have_http_status :success
+      expect(flash[:success].nil?).to be_falsey
+      expect(response).to render_template "products/new"
+    end
+
 
   end
 
